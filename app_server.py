@@ -1,7 +1,7 @@
 """Minimal production server for Aster's static site.
 
-The only application endpoint is /healthz. All other GET requests serve committed
-static files. There is intentionally no chat or model-provider API in this release.
+The only application endpoint is /api/healthz. All other GET requests serve
+committed static files. There is intentionally no chat or model-provider API.
 """
 
 from __future__ import annotations
@@ -12,6 +12,7 @@ from pathlib import Path
 from urllib.parse import urlsplit
 
 PUBLIC_DIR = Path(__file__).resolve().parent / "public"
+HEALTH_PATH = "/api/healthz"
 
 
 class AsterHandler(SimpleHTTPRequestHandler):
@@ -19,7 +20,7 @@ class AsterHandler(SimpleHTTPRequestHandler):
         super().__init__(*args, directory=str(PUBLIC_DIR), **kwargs)
 
     def do_GET(self) -> None:
-        if urlsplit(self.path).path == "/healthz":
+        if urlsplit(self.path).path == HEALTH_PATH:
             body = b"ok\n"
             self.send_response(200)
             self.send_header("Content-Type", "text/plain; charset=utf-8")
@@ -31,7 +32,7 @@ class AsterHandler(SimpleHTTPRequestHandler):
         super().do_GET()
 
     def do_HEAD(self) -> None:
-        if urlsplit(self.path).path == "/healthz":
+        if urlsplit(self.path).path == HEALTH_PATH:
             self.send_response(200)
             self.send_header("Content-Type", "text/plain; charset=utf-8")
             self.send_header("Cache-Control", "no-store")
@@ -40,7 +41,6 @@ class AsterHandler(SimpleHTTPRequestHandler):
         super().do_HEAD()
 
     def log_message(self, format: str, *args) -> None:
-        # Keep routine requests compact in container logs.
         print(f"{self.client_address[0]} - {format % args}", flush=True)
 
 

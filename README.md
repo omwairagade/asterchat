@@ -12,11 +12,11 @@ The project preview runs on port 3000:
 python3 app_server.py
 ```
 
-Visit `http://localhost:3000`. The server serves the files in `public/` and returns `200 ok` from `/healthz`.
+Visit `http://localhost:3000`. The server serves the files in `public/` and returns `200 ok` from `/api/healthz`.
 
 ## Production shape
 
-The managed static build publishes the committed `public/` directory. The container starts `app_server.py` on the platform-provided `PORT` (default `3000`) and serves `/healthz`; published routing sends the health path to the container and the website paths to the static build. The server has no AI, prompt submission, session, or persistence API.
+The managed static build publishes the committed `public/` directory. The container starts `app_server.py` on the platform-provided `PORT` (default `3000`) and serves `/api/healthz`; published routing sends `/api/*` to the container and visitor-facing website paths to the static output. The server has no AI, prompt submission, session, or persistence API.
 
 ## Project files
 
