@@ -4,250 +4,76 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#f7f8f4">
-  <meta name="description" content="Aster is a thoughtful AI companion for planning, understanding and finding your next clear step. Live chat is paused while access and usage controls are chosen.">
+  <meta name="description" content="Aster is a thoughtful AI companion. Sign in with Manus to chat, with 100 messages per account each UTC day.">
   <title>Aster — a little more clarity</title>
   <link rel="icon" type="image/svg+xml" href="/aster-mark.svg">
   <style>
-    :root {
-      color-scheme: light;
-      --paper: #f7f8f4;
-      --paper-2: #eff3ed;
-      --white: #fffefa;
-      --ink: #192622;
-      --muted: #66736d;
-      --line: #e1e8e0;
-      --green: #1f6c58;
-      --green-dark: #174b3e;
-      --green-soft: #e6f0e9;
-      --sage: #dce8dc;
-      --sage-deep: #b9cdbb;
-      --sand: #eee8d9;
-      --shadow: 0 26px 70px rgba(28, 62, 49, .10), 0 3px 14px rgba(28, 62, 49, .04);
-      --serif: Georgia, 'Times New Roman', serif;
-      --sans: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      font-family: var(--sans);
-      font-synthesis: none;
-      text-rendering: optimizeLegibility;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-      scroll-behavior: smooth;
-    }
-    * { box-sizing: border-box; }
-    body { margin: 0; background: var(--paper); color: var(--ink); }
-    a { color: inherit; }
-    button, textarea { font: inherit; }
-    .skip-link { position: fixed; z-index: 20; top: 10px; left: 10px; padding: 12px 16px; transform: translateY(-160%); border-radius: 10px; background: var(--green-dark); color: white; }
-    .skip-link:focus { transform: translateY(0); }
-    .site-header { position: relative; z-index: 3; display: flex; align-items: center; justify-content: space-between; width: min(1240px, calc(100% - 64px)); margin: 0 auto; min-height: 92px; border-bottom: 1px solid rgba(31, 63, 49, .10); }
-    .brand { display: inline-flex; align-items: center; gap: 11px; text-decoration: none; }
-    .brand img { width: 37px; height: 37px; }
-    .brand-name { font-weight: 750; letter-spacing: -.055em; font-size: 1.35rem; }
-    .brand-note { margin-left: 4px; padding-left: 13px; border-left: 1px solid #d7dfd7; color: #758079; font-size: .72rem; letter-spacing: .08em; text-transform: uppercase; }
-    .nav-links { display: flex; align-items: center; gap: 31px; }
-    .nav-links a { color: #52615a; font-size: .9rem; text-decoration: none; transition: color .18s ease; }
-    .nav-links a:hover { color: var(--green); }
-    .nav-links .nav-cta { display: inline-flex; align-items: center; gap: 9px; min-height: 43px; padding: 0 16px; border: 1px solid rgba(31,108,88,.22); border-radius: 999px; color: var(--green-dark); font-weight: 650; }
-    .nav-cta svg { width: 15px; height: 15px; }
-    main { overflow: hidden; }
-    .hero { position: relative; display: grid; grid-template-columns: minmax(0, 1.02fr) minmax(440px, .98fr); align-items: center; gap: clamp(40px, 7vw, 102px); width: min(1240px, calc(100% - 64px)); margin: 0 auto; padding: 71px 0 88px; }
-    .hero::before { position: absolute; z-index: -1; top: 9%; left: 43%; width: 560px; height: 560px; border-radius: 50%; background: radial-gradient(circle, rgba(220,232,220,.48) 0, rgba(220,232,220,.18) 43%, transparent 70%); content: ''; pointer-events: none; }
-    .hero-copy { padding: 9px 0 0 1.2%; }
-    .eyebrow { display: inline-flex; align-items: center; gap: 9px; color: var(--green); font-size: .73rem; line-height: 1.4; font-weight: 750; letter-spacing: .15em; text-transform: uppercase; }
-    .eyebrow-mark { width: 19px; height: 19px; }
-    h1 { max-width: 640px; margin: 22px 0 23px; font-family: var(--serif); font-weight: 400; font-size: clamp(3.35rem, 6.7vw, 6.15rem); letter-spacing: -.065em; line-height: .99; }
-    h1 em { color: var(--green); font-weight: 400; }
-    .hero-lede { max-width: 510px; color: #58675f; font-size: clamp(1.02rem, 1.3vw, 1.16rem); line-height: 1.72; }
-    .hero-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 18px; margin: 31px 0 28px; }
-    .button-primary { display: inline-flex; align-items: center; justify-content: center; gap: 11px; min-height: 52px; padding: 0 21px; border: 0; border-radius: 999px; background: var(--green); box-shadow: 0 9px 20px rgba(31,108,88,.17); color: #fff; font-size: .91rem; font-weight: 700; text-decoration: none; transition: background .2s ease, transform .2s ease, box-shadow .2s ease; }
-    .button-primary:hover { transform: translateY(-2px); background: var(--green-dark); box-shadow: 0 12px 24px rgba(31,108,88,.22); }
-    .button-primary svg { width: 17px; height: 17px; }
-    .text-link { color: #4e6458; font-size: .91rem; font-weight: 650; text-decoration: none; }
-    .text-link:hover { color: var(--green); text-decoration: underline; text-underline-offset: 4px; }
-    .trust-line { display: flex; align-items: center; gap: 10px; color: #748079; font-size: .79rem; }
-    .trust-icon { display: grid; width: 23px; height: 23px; place-items: center; border: 1px solid #d9e3d9; border-radius: 50%; color: var(--green); }
-    .trust-icon svg { width: 12px; height: 12px; }
-    .chat-shell { position: relative; padding: 13px; border: 1px solid rgba(83,112,94,.17); border-radius: 29px; background: rgba(255,254,250,.78); box-shadow: var(--shadow); transform: rotate(.7deg); }
-    .chat-shell::before { position: absolute; z-index: -1; top: 26px; right: -30px; bottom: -24px; left: 38px; border: 1px solid rgba(68,111,86,.13); border-radius: 30px; background: rgba(225,236,224,.39); content: ''; }
-    .chat-window { overflow: hidden; border-radius: 19px; background: var(--white); transform: rotate(-.7deg); }
-    .chat-topbar { display: flex; justify-content: space-between; align-items: center; min-height: 69px; padding: 0 20px; border-bottom: 1px solid #edf0e9; }
-    .assistant-id { display: flex; align-items: center; gap: 11px; }
-    .assistant-mark { display: grid; width: 38px; height: 38px; place-items: center; border-radius: 13px; background: var(--green-soft); }
-    .assistant-mark img { width: 22px; height: 22px; }
-    .assistant-name { font-size: .91rem; font-weight: 730; letter-spacing: -.02em; }
-    .assistant-caption { margin-top: 3px; color: #829087; font-size: .69rem; }
-    .status { display: inline-flex; align-items: center; gap: 7px; padding: 7px 10px; border: 1px solid #e6e9e1; border-radius: 999px; background: #fafaf7; color: #717a71; font-size: .68rem; font-weight: 650; }
-    .status-dot { width: 7px; height: 7px; border-radius: 50%; background: #a6ada2; }
-    .chat-body { min-height: 348px; padding: 20px 19px 17px; background: linear-gradient(180deg, #fffefa 0%, #fcfcf8 100%); }
-    .paused-card { display: flex; gap: 12px; padding: 14px 15px; border: 1px solid #e5e8df; border-radius: 15px; background: #f8f8f2; }
-    .paused-icon { flex: 0 0 auto; display: grid; width: 29px; height: 29px; place-items: center; border-radius: 10px; background: #e8eee4; color: #596f59; }
-    .paused-icon svg { width: 16px; height: 16px; }
-    .paused-title { margin: 1px 0 4px; font-size: .78rem; font-weight: 750; }
-    .paused-copy { color: #747c71; font-size: .72rem; line-height: 1.5; }
-    .sample-label { margin: 25px 0 10px; color: #899189; font-size: .64rem; font-weight: 720; letter-spacing: .12em; text-transform: uppercase; }
-    .sample-message { width: 84%; margin-left: auto; padding: 14px 15px; border-radius: 15px 15px 4px 15px; background: #edf4ed; color: #334a3b; font-family: var(--serif); font-size: 1rem; line-height: 1.48; }
-    .sample-caption { margin: 6px 2px 0; color: #98a097; font-size: .62rem; text-align: right; }
-    .starter-row { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 20px; }
-    .starter-chip { padding: 8px 10px; border: 1px solid #e5e9e1; border-radius: 999px; background: #fffefa; color: #66756a; font-size: .66rem; }
-    .composer { display: flex; align-items: flex-end; gap: 10px; padding: 12px; border: 1px solid #e2e7de; border-radius: 16px; background: #fafbf7; }
-    .composer textarea { flex: 1; min-height: 42px; resize: none; border: 0; outline: 0; background: transparent; color: #68756d; font-size: .78rem; line-height: 1.5; }
-    .composer textarea::placeholder { color: #99a198; }
-    .composer textarea:disabled { opacity: 1; -webkit-text-fill-color: #89948b; }
-    .send-button { display: grid; flex: 0 0 auto; width: 36px; height: 36px; place-items: center; border: 0; border-radius: 12px; background: #dce7dd; color: #758478; }
-    .send-button svg { width: 16px; height: 16px; }
-    .composer-note { margin: 9px 3px 0; color: #969d94; font-size: .63rem; text-align: center; }
-    .section { position: relative; }
-    .section-inner { width: min(1120px, calc(100% - 64px)); margin: 0 auto; }
-    .why-section { padding: 89px 0 98px; border-top: 1px solid rgba(31,63,49,.08); background: #f0f3ec; }
-    .section-heading { max-width: 600px; }
-    .section-kicker { margin-bottom: 13px; color: var(--green); font-size: .71rem; font-weight: 750; letter-spacing: .16em; text-transform: uppercase; }
-    h2 { margin: 0; font-family: var(--serif); font-size: clamp(2.25rem, 4vw, 3.75rem); font-weight: 400; letter-spacing: -.055em; line-height: 1.08; }
-    .section-intro { max-width: 550px; margin: 18px 0 0; color: #65736a; font-size: 1rem; line-height: 1.72; }
-    .capabilities { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; margin-top: 51px; border-top: 1px solid #dce4d9; }
-    .capability { padding: 25px 26px 10px 0; }
-    .capability + .capability { padding-left: 27px; border-left: 1px solid #dce4d9; }
-    .capability-number { color: #8ca08d; font-family: var(--serif); font-size: .91rem; }
-    .capability h3 { margin: 22px 0 9px; font-size: 1.02rem; letter-spacing: -.025em; }
-    .capability p { max-width: 275px; margin: 0; color: #6c786f; font-size: .88rem; line-height: 1.68; }
-    .access-section { display: grid; grid-template-columns: .76fr 1.24fr; align-items: start; gap: 70px; width: min(1120px, calc(100% - 64px)); margin: 0 auto; padding: 94px 0 104px; }
-    .access-copy { padding-top: 5px; }
-    .access-copy h2 { max-width: 430px; font-size: clamp(2.15rem, 3.6vw, 3.25rem); }
-    .access-copy p { max-width: 430px; margin: 17px 0 0; color: #647168; font-size: .94rem; line-height: 1.74; }
-    .access-note { padding: 25px 28px; border: 1px solid #e4e9df; border-radius: 20px; background: var(--white); box-shadow: 0 14px 40px rgba(31,70,50,.045); }
-    .access-row { display: flex; gap: 16px; padding: 7px 0 19px; }
-    .access-row + .access-row { padding: 19px 0; border-top: 1px solid #edf0e9; }
-    .access-row:last-child { padding-bottom: 6px; }
-    .step-index { flex: 0 0 auto; display: grid; width: 28px; height: 28px; place-items: center; border: 1px solid #dce7da; border-radius: 50%; color: var(--green); font-family: var(--serif); font-size: .85rem; }
-    .access-row h3 { margin: 2px 0 5px; font-size: .88rem; }
-    .access-row p { margin: 0; color: #738078; font-size: .79rem; line-height: 1.62; }
-    .privacy-section { padding: 70px 0; background: #1e3e32; color: #f8f7ef; }
-    .privacy-inner { display: flex; align-items: center; justify-content: space-between; gap: 48px; width: min(1120px, calc(100% - 64px)); margin: 0 auto; }
-    .privacy-inner h2 { max-width: 520px; font-size: clamp(2rem, 3.5vw, 3.1rem); }
-    .privacy-inner p { max-width: 455px; margin: 14px 0 0; color: #c4d0c6; font-size: .9rem; line-height: 1.7; }
-    .privacy-status { flex: 0 0 auto; display: inline-flex; align-items: center; gap: 9px; padding: 11px 14px; border: 1px solid rgba(226,237,226,.2); border-radius: 999px; color: #dfebe0; font-size: .75rem; }
-    .privacy-status svg { width: 15px; height: 15px; color: #b5d2b9; }
-    footer { display: flex; align-items: center; justify-content: space-between; gap: 20px; width: min(1240px, calc(100% - 64px)); min-height: 82px; margin: 0 auto; color: #79847c; font-size: .75rem; }
-    .footer-brand { display: inline-flex; align-items: center; gap: 8px; color: var(--ink); font-weight: 730; }
-    .footer-brand img { width: 22px; height: 22px; }
-    .footer-links { display: flex; gap: 20px; }
-    .footer-links a { color: #6b776f; text-decoration: none; }
-    .footer-links a:hover { color: var(--green); }
-    :focus-visible { outline: 3px solid #7ab49b; outline-offset: 3px; }
-    @media (max-width: 960px) {
-      .hero { grid-template-columns: minmax(0, 1fr) minmax(360px, .92fr); gap: 36px; padding: 60px 0 78px; }
-      h1 { font-size: clamp(3.2rem, 7.3vw, 5.1rem); }
-      .access-section { gap: 42px; }
-    }
-    @media (max-width: 760px) {
-      .site-header, .hero, .section-inner, .access-section, .privacy-inner, footer { width: min(100% - 36px, 600px); }
-      .site-header { min-height: 75px; }
-      .brand-note, .nav-links > a:not(.nav-cta) { display: none; }
-      .nav-links { gap: 0; }
-      .nav-links .nav-cta { min-height: 39px; padding: 0 13px; font-size: .8rem; }
-      .hero { grid-template-columns: 1fr; gap: 48px; padding: 54px 0 68px; }
-      .hero-copy { padding: 0; }
-      h1 { max-width: 520px; margin: 18px 0; font-size: clamp(3.5rem, 13vw, 5rem); }
-      .hero-lede { max-width: 540px; }
-      .chat-shell { width: min(100%, 520px); margin: 0 auto; }
-      .chat-shell::before { right: -10px; left: 21px; }
-      .chat-body { min-height: 320px; }
-      .why-section { padding: 68px 0 74px; }
-      .capabilities { grid-template-columns: 1fr; margin-top: 35px; }
-      .capability, .capability + .capability { padding: 20px 0; border-left: 0; }
-      .capability + .capability { border-top: 1px solid #dce4d9; }
-      .capability h3 { margin: 11px 0 6px; }
-      .capability p { max-width: 480px; }
-      .access-section { grid-template-columns: 1fr; gap: 27px; padding: 72px 0 78px; }
-      .privacy-section { padding: 60px 0; }
-      .privacy-inner { align-items: flex-start; flex-direction: column; gap: 24px; }
-      footer { align-items: flex-start; flex-direction: column; justify-content: center; gap: 13px; padding: 23px 0; }
-    }
-    @media (max-width: 420px) {
-      .site-header, .hero, .section-inner, .access-section, .privacy-inner, footer { width: calc(100% - 30px); }
-      .hero { padding-top: 44px; }
-      .hero-actions { align-items: flex-start; flex-direction: column; gap: 16px; }
-      .button-primary { min-height: 49px; }
-      .chat-shell { padding: 9px; border-radius: 23px; }
-      .chat-topbar { min-height: 62px; padding: 0 12px; }
-      .status { padding: 6px 8px; font-size: .62rem; }
-      .chat-body { padding: 14px 12px; }
-      .paused-card { padding: 12px; }
-      .sample-message { width: 91%; font-size: .94rem; }
-      .access-note { padding: 21px 18px; }
-      .footer-links { gap: 14px; }
-    }
-    @media (prefers-reduced-motion: no-preference) {
-      .hero-copy { animation: settle .6s ease-out both; }
-      .chat-shell { animation: float-in .75s .08s ease-out both; }
-      @keyframes settle { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
-      @keyframes float-in { from { opacity: 0; transform: translateY(14px) rotate(.7deg); } to { opacity: 1; transform: translateY(0) rotate(.7deg); } }
-    }
+    :root{color-scheme:light;--paper:#f7f8f4;--paper-2:#eff3ed;--white:#fffefa;--ink:#192622;--muted:#66736d;--line:#e1e8e0;--green:#1f6c58;--green-dark:#174b3e;--green-soft:#e6f0e9;--sage:#dce8dc;--sand:#eee8d9;--shadow:0 26px 70px rgba(28,62,49,.10),0 3px 14px rgba(28,62,49,.04);--serif:Georgia,'Times New Roman',serif;--sans:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-family:var(--sans);font-synthesis:none;text-rendering:optimizeLegibility;-webkit-font-smoothing:antialiased;scroll-behavior:smooth}
+    *{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink)}a{color:inherit}button,textarea{font:inherit}.skip-link{position:fixed;z-index:20;top:10px;left:10px;padding:12px 16px;transform:translateY(-160%);border-radius:10px;background:var(--green-dark);color:#fff}.skip-link:focus{transform:translateY(0)}
+    .site-header{position:relative;z-index:3;display:flex;align-items:center;justify-content:space-between;width:min(1240px,calc(100% - 64px));margin:0 auto;min-height:92px;border-bottom:1px solid rgba(31,63,49,.10)}.brand{display:inline-flex;align-items:center;gap:11px;text-decoration:none}.brand img{width:37px;height:37px}.brand-name{font-weight:750;letter-spacing:-.055em;font-size:1.35rem}.brand-note{margin-left:4px;padding-left:13px;border-left:1px solid #d7dfd7;color:#758079;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase}.nav-links{display:flex;align-items:center;gap:31px}.nav-links a{color:#52615a;font-size:.9rem;text-decoration:none}.nav-links a:hover{color:var(--green)}.nav-links .nav-cta{display:inline-flex;align-items:center;gap:9px;min-height:43px;padding:0 16px;border:1px solid rgba(31,108,88,.22);border-radius:999px;color:var(--green-dark);font-weight:650}
+    main{overflow:hidden}.hero{position:relative;display:grid;grid-template-columns:minmax(0,1.02fr) minmax(440px,.98fr);align-items:center;gap:clamp(40px,7vw,102px);width:min(1240px,calc(100% - 64px));margin:0 auto;padding:71px 0 88px}.hero:before{position:absolute;z-index:-1;top:9%;left:43%;width:560px;height:560px;border-radius:50%;background:radial-gradient(circle,rgba(220,232,220,.48),rgba(220,232,220,.18) 43%,transparent 70%);content:'';pointer-events:none}.hero-copy{padding:9px 0 0 1.2%}.eyebrow{display:inline-flex;align-items:center;gap:9px;color:var(--green);font-size:.73rem;line-height:1.4;font-weight:750;letter-spacing:.15em;text-transform:uppercase}.eyebrow img{width:19px;height:19px}h1{max-width:640px;margin:22px 0 23px;font-family:var(--serif);font-weight:400;font-size:clamp(3.35rem,6.7vw,6.15rem);letter-spacing:-.065em;line-height:.99}h1 em{color:var(--green);font-weight:400}.hero-lede{max-width:510px;color:#58675f;font-size:clamp(1.02rem,1.3vw,1.16rem);line-height:1.72}.hero-actions{display:flex;flex-wrap:wrap;align-items:center;gap:18px;margin:31px 0 28px}.button-primary{display:inline-flex;align-items:center;justify-content:center;gap:11px;min-height:52px;padding:0 21px;border:0;border-radius:999px;background:var(--green);box-shadow:0 9px 20px rgba(31,108,88,.17);color:#fff;font-size:.91rem;font-weight:700;text-decoration:none;cursor:pointer;transition:background .2s,transform .2s,box-shadow .2s}.button-primary:hover{transform:translateY(-2px);background:var(--green-dark);box-shadow:0 12px 24px rgba(31,108,88,.22)}.button-primary:disabled{opacity:.58;cursor:wait;transform:none}.text-link{color:#4e6458;font-size:.91rem;font-weight:650;text-decoration:none}.text-link:hover{color:var(--green);text-decoration:underline;text-underline-offset:4px}.trust-line{display:flex;align-items:center;gap:10px;color:#748079;font-size:.79rem}.trust-icon{display:grid;width:23px;height:23px;place-items:center;border:1px solid #d9e3d9;border-radius:50%;color:var(--green)}.trust-icon svg{width:12px;height:12px}
+    .chat-shell{position:relative;padding:13px;border:1px solid rgba(83,112,94,.17);border-radius:29px;background:rgba(255,254,250,.78);box-shadow:var(--shadow);transform:rotate(.7deg)}.chat-shell:before{position:absolute;z-index:-1;top:26px;right:-30px;bottom:-24px;left:38px;border:1px solid rgba(68,111,86,.13);border-radius:30px;background:rgba(225,236,224,.39);content:''}.chat-window{overflow:hidden;border-radius:19px;background:var(--white);transform:rotate(-.7deg)}.chat-topbar{display:flex;justify-content:space-between;align-items:center;gap:12px;min-height:69px;padding:0 20px;border-bottom:1px solid #edf0e9}.assistant-id{display:flex;align-items:center;gap:11px}.assistant-mark{display:grid;width:38px;height:38px;place-items:center;border-radius:13px;background:var(--green-soft)}.assistant-mark img{width:22px;height:22px}.assistant-name{font-size:.91rem;font-weight:730;letter-spacing:-.02em}.assistant-caption{margin-top:3px;color:#829087;font-size:.69rem}.status{display:inline-flex;align-items:center;gap:7px;max-width:65%;padding:7px 10px;border:1px solid #e6e9e1;border-radius:999px;background:#fafaf7;color:#596b5f;font-size:.68rem;font-weight:650}.status-dot{flex:0 0 auto;width:7px;height:7px;border-radius:50%;background:#75a782}.logout-button{border:0;background:transparent;color:#718078;font-size:.72rem;text-decoration:underline;text-underline-offset:3px;cursor:pointer}.chat-body{min-height:380px;padding:20px 19px 17px;background:linear-gradient(180deg,#fffefa,#fcfcf8)}.auth-card{padding:21px;border:1px solid #e5e8df;border-radius:16px;background:#f8f8f2}.auth-card h2{margin:0 0 8px;font-family:var(--sans);font-size:1rem;font-weight:720;letter-spacing:-.025em}.auth-card p{margin:0 0 16px;color:#747c71;font-size:.78rem;line-height:1.6}.auth-card .button-primary{min-height:45px;padding:0 17px;font-size:.82rem}.auth-caption{margin-top:12px!important;margin-bottom:0!important;font-size:.69rem!important}.quota-panel{display:flex;justify-content:space-between;align-items:center;gap:14px;margin-bottom:15px;padding:11px 13px;border:1px solid #e1e9df;border-radius:13px;background:#f5f8f2;color:#46604c;font-size:.76rem}.quota-count{font-weight:750}.messages{display:flex;flex-direction:column;gap:12px;min-height:160px;max-height:320px;overflow:auto;padding:2px 1px 14px;scroll-behavior:smooth}.chat-empty{margin:auto;color:#899189;font-size:.82rem;text-align:center}.message{max-width:91%;padding:12px 14px;border-radius:15px;color:#34483c;font-size:.84rem;line-height:1.62;overflow-wrap:anywhere}.message-user{align-self:flex-end;border-radius:15px 15px 4px 15px;background:#edf4ed}.message-assistant{align-self:flex-start;border:1px solid #e8ebe3;border-radius:15px 15px 15px 4px;background:#fff}.message-body>*:first-child{margin-top:0}.message-body>*:last-child{margin-bottom:0}.message-body pre{overflow:auto;padding:10px;border-radius:8px;background:#f1f3ee}.message-body code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.9em}.message-body a{color:var(--green);text-underline-offset:2px}.chat-notice{min-height:1.4em;margin:0 2px 8px;color:#7c5036;font-size:.76rem;line-height:1.5}.composer{display:flex;align-items:flex-end;gap:10px;padding:12px;border:1px solid #e2e7de;border-radius:16px;background:#fafbf7}.composer textarea{flex:1;min-height:42px;max-height:130px;resize:vertical;border:0;outline:0;background:transparent;color:#25372d;font-size:.84rem;line-height:1.5}.composer textarea::placeholder{color:#99a198}.send-button{display:grid;flex:0 0 auto;width:38px;height:38px;place-items:center;border:0;border-radius:12px;background:var(--green);color:#fff;cursor:pointer}.send-button:disabled{background:#dce7dd;color:#758478;cursor:not-allowed}.send-button svg{width:16px;height:16px}.composer-note{margin:9px 3px 0;color:#8b948c;font-size:.66rem;line-height:1.5;text-align:center}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+    .section{position:relative}.section-inner{width:min(1120px,calc(100% - 64px));margin:0 auto}.why-section{padding:89px 0 98px;border-top:1px solid rgba(31,63,49,.08);background:#f0f3ec}.section-heading{max-width:600px}.section-kicker{margin-bottom:13px;color:var(--green);font-size:.71rem;font-weight:750;letter-spacing:.16em;text-transform:uppercase}h2{margin:0;font-family:var(--serif);font-size:clamp(2.25rem,4vw,3.75rem);font-weight:400;letter-spacing:-.055em;line-height:1.08}.section-intro{max-width:550px;margin:18px 0 0;color:#65736a;font-size:1rem;line-height:1.72}.capabilities{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;margin-top:51px;border-top:1px solid #dce4d9}.capability{padding:25px 26px 10px 0}.capability+.capability{padding-left:27px;border-left:1px solid #dce4d9}.capability-number{color:#8ca08d;font-family:var(--serif);font-size:.91rem}.capability h3{margin:22px 0 9px;font-size:1.02rem;letter-spacing:-.025em}.capability p{max-width:275px;margin:0;color:#6c786f;font-size:.88rem;line-height:1.68}.access-section{display:grid;grid-template-columns:.76fr 1.24fr;align-items:start;gap:70px;width:min(1120px,calc(100% - 64px));margin:0 auto;padding:94px 0 104px}.access-copy{padding-top:5px}.access-copy h2{max-width:430px;font-size:clamp(2.15rem,3.6vw,3.25rem)}.access-copy p{max-width:430px;margin:17px 0 0;color:#647168;font-size:.94rem;line-height:1.74}.access-note{padding:25px 28px;border:1px solid #e4e9df;border-radius:20px;background:var(--white);box-shadow:0 14px 40px rgba(31,70,50,.045)}.access-row{display:flex;gap:16px;padding:7px 0 19px}.access-row+.access-row{padding:19px 0;border-top:1px solid #edf0e9}.access-row:last-child{padding-bottom:6px}.step-index{flex:0 0 auto;display:grid;width:28px;height:28px;place-items:center;border:1px solid #dce7da;border-radius:50%;color:var(--green);font-family:var(--serif);font-size:.85rem}.access-row h3{margin:2px 0 5px;font-size:.88rem}.access-row p{margin:0;color:#738078;font-size:.79rem;line-height:1.62}.privacy-section{padding:70px 0;background:#1e3e32;color:#f8f7ef}.privacy-inner{display:flex;align-items:center;justify-content:space-between;gap:48px;width:min(1120px,calc(100% - 64px));margin:0 auto}.privacy-inner h2{max-width:520px;font-size:clamp(2rem,3.5vw,3.1rem)}.privacy-inner p{max-width:455px;margin:14px 0 0;color:#c4d0c6;font-size:.9rem;line-height:1.7}.privacy-status{flex:0 0 auto;display:inline-flex;align-items:center;gap:9px;padding:11px 14px;border:1px solid rgba(226,237,226,.2);border-radius:999px;color:#dfebe0;font-size:.75rem}.privacy-status svg{width:15px;height:15px;color:#b5d2b9}footer{display:flex;align-items:center;justify-content:space-between;gap:20px;width:min(1240px,calc(100% - 64px));min-height:82px;margin:0 auto;color:#79847c;font-size:.75rem}.footer-brand{display:inline-flex;align-items:center;gap:8px;color:var(--ink);font-weight:730}.footer-brand img{width:22px;height:22px}.footer-links{display:flex;gap:20px}.footer-links a{color:#6b776f;text-decoration:none}.footer-links a:hover{color:var(--green)}:focus-visible{outline:3px solid #7ab49b;outline-offset:3px}
+    @media(max-width:960px){.hero{grid-template-columns:minmax(0,1fr) minmax(360px,.92fr);gap:36px;padding:60px 0 78px}h1{font-size:clamp(3.2rem,7.3vw,5.1rem)}.access-section{gap:42px}}
+    @media(max-width:760px){.site-header,.hero,.section-inner,.access-section,.privacy-inner,footer{width:min(100% - 36px,600px)}.site-header{min-height:75px}.brand-note,.nav-links>a:not(.nav-cta){display:none}.nav-links{gap:0}.nav-links .nav-cta{min-height:39px;padding:0 13px;font-size:.8rem}.hero{grid-template-columns:1fr;gap:48px;padding:54px 0 68px}.hero-copy{padding:0}h1{max-width:520px;margin:18px 0;font-size:clamp(3.5rem,13vw,5rem)}.hero-lede{max-width:540px}.chat-shell{width:min(100%,520px);margin:0 auto}.chat-shell:before{right:-10px;left:21px}.chat-body{min-height:320px}.why-section{padding:68px 0 74px}.capabilities{grid-template-columns:1fr;margin-top:35px}.capability,.capability+.capability{padding:20px 0;border-left:0}.capability+.capability{border-top:1px solid #dce4d9}.capability h3{margin:11px 0 6px}.capability p{max-width:480px}.access-section{grid-template-columns:1fr;gap:27px;padding:72px 0 78px}.privacy-section{padding:60px 0}.privacy-inner{align-items:flex-start;flex-direction:column;gap:24px}footer{align-items:flex-start;flex-direction:column;justify-content:center;gap:13px;padding:23px 0}}
+    @media(max-width:420px){.site-header,.hero,.section-inner,.access-section,.privacy-inner,footer{width:calc(100% - 30px)}.hero{padding-top:44px}.hero-actions{align-items:flex-start;flex-direction:column;gap:16px}.button-primary{min-height:49px}.chat-shell{padding:9px;border-radius:23px}.chat-topbar{min-height:62px;padding:0 12px}.status{padding:6px 8px;font-size:.62rem}.chat-body{padding:14px 12px}.access-note{padding:21px 18px}.footer-links{gap:14px}}
+    @media(prefers-reduced-motion:no-preference){.hero-copy{animation:settle .6s ease-out both}.chat-shell{animation:float-in .75s .08s ease-out both}@keyframes settle{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}@keyframes float-in{from{opacity:0;transform:translateY(14px) rotate(.7deg)}to{opacity:1;transform:translateY(0) rotate(.7deg)}}}
   </style>
+  <script src="/aster-chat.js" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
   <header class="site-header">
-    <a class="brand" href="#top" aria-label="Aster home">
-      <img src="/aster-mark.svg" alt="" width="37" height="37">
-      <span class="brand-name">Aster</span>
-      <span class="brand-note">a little more clarity</span>
-    </a>
-    <nav class="nav-links" aria-label="Main navigation">
-      <a href="#about">About</a>
-      <a href="#privacy">Privacy</a>
-      <a class="nav-cta" href="#conversation">Explore Aster <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10h11m-4-4 4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-    </nav>
+    <a class="brand" href="#top" aria-label="Aster home"><img src="/aster-mark.svg" alt="" width="37" height="37"><span class="brand-name">Aster</span><span class="brand-note">a little more clarity</span></a>
+    <nav class="nav-links" aria-label="Main navigation"><a href="#about">About</a><a href="#privacy">Privacy</a><a class="nav-cta" href="#conversation">Start chatting <span aria-hidden="true">→</span></a></nav>
   </header>
 
   <main id="main">
     <section class="hero" id="top" aria-labelledby="hero-title">
       <div class="hero-copy">
-        <div class="eyebrow"><img class="eyebrow-mark" src="/aster-mark.svg" alt="" width="19" height="19"> A thoughtful space to think out loud</div>
+        <div class="eyebrow"><img src="/aster-mark.svg" alt="" width="19" height="19"> A thoughtful space to think out loud</div>
         <h1 id="hero-title">Bring the tangle.<br>Find your next <em>clear step.</em></h1>
         <p class="hero-lede">Aster is a calm, capable AI companion for the moments when you need to plan, understand something new, or see a problem from another angle.</p>
-        <div class="hero-actions">
-          <a class="button-primary" href="#conversation">See the experience <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10h11m-4-4 4 4-4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-          <a class="text-link" href="#access">How live chat will work</a>
-        </div>
-        <div class="trust-line"><span class="trust-icon"><svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 1.8 13 4v3.3c0 3.1-2.1 5.6-5 6.9-2.9-1.3-5-3.8-5-6.9V4l5-2.2Z" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/><path d="m5.7 7.9 1.5 1.5 3.1-3.1" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/></svg></span> No prompts are sent while chat is paused.</div>
+        <div class="hero-actions"><a class="button-primary" href="#conversation">Start a conversation <span aria-hidden="true">→</span></a><a class="text-link" href="#access">How your daily limit works</a></div>
+        <div class="trust-line"><span class="trust-icon" aria-hidden="true">✓</span> Manus sign-in · 100 messages per account each UTC day</div>
       </div>
 
-      <div class="chat-shell" id="conversation" aria-label="Preview of the Aster chat experience">
+      <section class="chat-shell" id="conversation" aria-label="Aster chat">
         <div class="chat-window">
           <div class="chat-topbar">
-            <div class="assistant-id">
-              <div class="assistant-mark"><img src="/aster-mark.svg" alt="" width="22" height="22"></div>
-              <div><div class="assistant-name">Aster</div><div class="assistant-caption">Your thinking companion</div></div>
-            </div>
-            <div class="status"><span class="status-dot" aria-hidden="true"></span> Chat paused</div>
+            <div class="assistant-id"><div class="assistant-mark"><img src="/aster-mark.svg" alt="" width="22" height="22"></div><div><div class="assistant-name">Aster</div><div class="assistant-caption">Your thinking companion</div></div></div>
+            <div><span id="session-status" class="status" role="status" aria-live="polite"><span class="status-dot" aria-hidden="true"></span> Checking sign-in…</span> <button id="logout-button" class="logout-button" type="button" hidden>Sign out</button></div>
           </div>
           <div class="chat-body">
-            <div class="paused-card" role="status">
-              <span class="paused-icon"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M10 2.5v1.8m0 11.4v1.8m7.5-7.5h-1.8M4.3 10H2.5m12.8-5.3-1.2 1.2M5.9 14.1l-1.2 1.2m10.6 0-1.2-1.2M5.9 5.9 4.7 4.7" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><circle cx="10" cy="10" r="3.1" stroke="currentColor" stroke-width="1.3"/></svg></span>
-              <div><div class="paused-title">Aster is getting ready.</div><div class="paused-copy">Live replies are paused until access and usage controls are chosen.</div></div>
-            </div>
-            <div class="sample-label">A glimpse of what you could ask</div>
-            <div class="sample-message">“Could you help me make sense of a decision I’ve been putting off?”</div>
-            <div class="sample-caption">Example prompt · nothing is sent</div>
-            <div class="starter-row" aria-label="Example topics"><span class="starter-chip">Plan a focused week</span><span class="starter-chip">Untangle an idea</span><span class="starter-chip">Learn something new</span></div>
+            <section id="auth-panel" class="auth-card" aria-labelledby="auth-title">
+              <h2 id="auth-title">A little clarity starts here.</h2>
+              <p>Sign in with your Manus account. Your first sign-in automatically registers you for Aster—no invite needed.</p>
+              <button id="login-button" class="button-primary" type="button">Continue with Manus <span aria-hidden="true">→</span></button>
+              <p class="auth-caption">Anyone with this link can join using a Manus account. Your 100-message daily allowance follows your account across devices.</p>
+            </section>
+
+            <section id="chat-panel" hidden aria-label="Conversation">
+              <div id="quota-panel" class="quota-panel" role="status"><span>Today's messages</span><span id="quota-count" class="quota-count">—</span></div>
+              <div id="chat-messages" class="messages" role="log" aria-live="polite" aria-relevant="additions text"><p id="chat-empty" class="chat-empty">Start with the messy version. Aster is listening.</p></div>
+              <p id="chat-notice" class="chat-notice" aria-live="polite"></p>
+              <form id="chat-form" class="composer" aria-label="Send a message to Aster">
+                <label class="sr-only" for="chat-input">Your message</label>
+                <textarea id="chat-input" rows="1" maxlength="4000" placeholder="What would you like to think through?" required></textarea>
+                <button id="send-button" class="send-button" type="submit" aria-label="Send message"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M3.5 10h12m-4.4-4.4L15.5 10l-4.4 4.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+              </form>
+              <p class="composer-note">Messages go to Manus AI for replies. Aster stores your account's daily count, not the conversation text.</p>
+            </section>
+            <p id="auth-notice" class="chat-notice" aria-live="polite"></p>
           </div>
-          <form class="composer" aria-label="Chat composer">
-            <textarea aria-label="Chat message" rows="1" placeholder="Live chat isn't turned on yet" disabled></textarea>
-            <button class="send-button" type="button" disabled aria-label="Send message"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M3.5 10h12m-4.4-4.4L15.5 10l-4.4 4.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-          </form>
-          <div class="composer-note">The message box is disabled. This page does not send or store prompts.</div>
         </div>
-      </div>
+      </section>
     </section>
 
     <section class="why-section section" id="about" aria-labelledby="about-title">
       <div class="section-inner">
-        <div class="section-heading">
-          <div class="section-kicker">Less noise, more direction</div>
-          <h2 id="about-title">A good conversation can change the shape of a day.</h2>
-          <p class="section-intro">Aster is designed for useful thinking—not another feed to keep up with. Bring a half-formed thought, a practical question, or a plan that needs a second look.</p>
-        </div>
+        <div class="section-heading"><div class="section-kicker">Less noise, more direction</div><h2 id="about-title">A good conversation can change the shape of a day.</h2><p class="section-intro">Aster is designed for useful thinking—not another feed to keep up with. Bring a half-formed thought, a practical question, or a plan that needs a second look.</p></div>
         <div class="capabilities">
-          <article class="capability"><div class="capability-number">01 / Think</div><h3>Untangle what’s on your mind</h3><p>Start with the messy version. Work through the details one clear question at a time.</p></article>
+          <article class="capability"><div class="capability-number">01 / Think</div><h3>Untangle what's on your mind</h3><p>Start with the messy version. Work through the details one clear question at a time.</p></article>
           <article class="capability"><div class="capability-number">02 / Make</div><h3>Turn ideas into next steps</h3><p>Shape a plan, outline, or decision into something you can actually move forward with.</p></article>
           <article class="capability"><div class="capability-number">03 / Learn</div><h3>Make the unfamiliar feel closer</h3><p>Explore a new topic at your pace, with explanations that meet you where you are.</p></article>
         </div>
@@ -255,30 +81,19 @@
     </section>
 
     <section class="access-section" id="access" aria-labelledby="access-title">
-      <div class="access-copy">
-        <div class="section-kicker">A considered opening</div>
-        <h2 id="access-title">Live chat will open on your terms.</h2>
-        <p>The site is here to explore. The AI connection is intentionally off for now, until you decide who can use it and how much usage is allowed.</p>
-      </div>
-      <div class="access-note" aria-label="Live chat setup status">
-        <div class="access-row"><span class="step-index">1</span><div><h3>Choose who gets access</h3><p>Decide whether Aster is just for you, invited people, or open to visitors.</p></div></div>
-        <div class="access-row"><span class="step-index">2</span><div><h3>Set clear usage limits</h3><p>Choose the controls that fit your intended audience before connecting a live model.</p></div></div>
-        <div class="access-row"><span class="step-index">3</span><div><h3>Enable replies when you're ready</h3><p>Until then, the composer stays disabled and no chat message leaves this page.</p></div></div>
+      <div class="access-copy"><div class="section-kicker">Open door, clear boundaries</div><h2 id="access-title">Chat that knows your limits.</h2><p>Anyone with this link can join after signing in with Manus. Your usage follows your account, not a browser or device.</p></div>
+      <div class="access-note" aria-label="Aster sign-in and usage details">
+        <div class="access-row"><span class="step-index">1</span><div><h3>Sign in once</h3><p>Your Manus account automatically registers you for Aster. There is no Aster invite list.</p></div></div>
+        <div class="access-row"><span class="step-index">2</span><div><h3>100 user messages each UTC day</h3><p>The server checks a shared account counter, so switching devices does not reset your allowance.</p></div></div>
+        <div class="access-row"><span class="step-index">3</span><div><h3>Start thinking out loud</h3><p>Aster streams replies from Manus AI. The allowance resets at 00:00 UTC.</p></div></div>
       </div>
     </section>
 
     <section class="privacy-section" id="privacy" aria-labelledby="privacy-title">
-      <div class="privacy-inner">
-        <div><div class="section-kicker" style="color:#b8d4bd">A clear line</div><h2 id="privacy-title">Your words should go nowhere without your say-so.</h2><p>Right now, the chat composer is disabled. No message is submitted to an AI provider or stored by this site. If live chat is enabled later, access and usage controls can be decided first.</p></div>
-        <div class="privacy-status"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M10 2.5 16 5v4c0 3.7-2.6 6.7-6 8.4C6.6 15.7 4 12.7 4 9V5l6-2.5Z" stroke="currentColor" stroke-width="1.35" stroke-linejoin="round"/><path d="m7.3 9.7 1.8 1.8 3.7-3.7" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round"/></svg> No live connection · No prompt storage</div>
-      </div>
+      <div class="privacy-inner"><div><div class="section-kicker" style="color:#b8d4bd">A clear line</div><h2 id="privacy-title">Your words are not the usage record.</h2><p>Aster sends prompts to Manus AI to answer them. Aster's database stores a pseudonymous account key and daily message counts—not your prompt or response text. The current conversation lives only in this page until you leave or reload.</p></div><div class="privacy-status"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M10 2.5 16 5v4c0 3.7-2.6 6.7-6 8.4C6.6 15.7 4 12.7 4 9V5l6-2.5Z" stroke="currentColor" stroke-width="1.35" stroke-linejoin="round"/><path d="m7.3 9.7 1.8 1.8 3.7-3.7" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round"/></svg> Account-bound daily limit · No Aster transcript storage</div></div>
     </section>
   </main>
 
-  <footer>
-    <div class="footer-brand"><img src="/aster-mark.svg" alt="" width="22" height="22"> Aster <span style="color:#8c968e;font-weight:400">· a little more clarity</span></div>
-    <div class="footer-links"><a href="#about">About</a><a href="#privacy">Privacy</a><span>© <span id="year"></span> Aster</span></div>
-  </footer>
-  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+  <footer><div class="footer-brand"><img src="/aster-mark.svg" alt="" width="22" height="22"> Aster <span style="color:#8c968e;font-weight:400">· a little more clarity</span></div><div class="footer-links"><a href="#about">About</a><a href="#privacy">Privacy</a><span>© <span id="year"></span> Aster</span></div></footer>
 </body>
 </html>

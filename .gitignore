@@ -4,6 +4,9 @@
 !.env.example
 .streamlit/secrets.toml
 
-# Python runtime caches
+# Python environments and runtime caches
+.venv/
 __pycache__/
 *.py[cod]
+.pytest_cache/
+.coverage
