@@ -1,17 +1,28 @@
 # Aster AI Chat — permanent site
 
-This is the managed-hosting website for Aster. It is a dependency-free, responsive static site with an honest preview of the future chat experience.
+This is the managed-hosting website for Aster. The visitor-facing experience is a dependency-free, responsive static site in `public/`; a small Python standard-library server provides the health endpoint required by the managed container deployment.
 
-**Live AI chat is intentionally disabled.** The composer is disabled, no chat API or AI service is called, and the site does not submit or persist visitor prompts. Do not enable a provider connection until the owner chooses access and usage controls.
+**Live AI chat is intentionally disabled.** The composer is disabled, the server exposes no chat or model-provider endpoint, and the site does not submit or persist visitor prompts. Do not add an AI provider connection until the owner chooses access and usage controls.
 
 ## Local preview
 
+The project preview runs on port 3000:
+
 ```bash
-python3 -m http.server 3000 --bind 0.0.0.0 --directory public
+python3 app_server.py
 ```
 
-Visit `http://localhost:3000`. The app is served from `public/`, and `public/manus-routes.json` declares the single `/` route.
+Visit `http://localhost:3000`. The server serves the files in `public/` and returns `200 ok` from `/healthz`.
 
-## Production
+## Production shape
 
-The managed static build serves the committed `public/` directory. Keep production assets in `public/`; no Node/Python application server is required to serve the deployed page.
+The managed static build publishes the committed `public/` directory. The container starts `app_server.py` on the platform-provided `PORT` (default `3000`) and serves `/healthz`; published routing sends the health path to the container and the website paths to the static build. The server has no AI, prompt submission, session, or persistence API.
+
+## Project files
+
+- `public/index.html` — responsive Aster website with an explicitly paused chat composer.
+- `public/manus-routes.json` — the `/` page route declaration.
+- `public/aster-mark.svg` — original wordmark mark and favicon.
+- `app_server.py` — static-file server and health endpoint only.
+- `Dockerfile` — minimal production container.
+- `app.config.ts` — platform project-logo metadata.

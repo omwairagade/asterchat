@@ -2,18 +2,19 @@
 
 ## Scope and implementation
 
-Deliver a permanent, responsive Aster website on Manus-managed static hosting. The page presents the upgraded AI chat product and its intended conversation experience, but live AI chat remains disabled until the owner chooses access and usage controls. The site must not call an LLM, collect prompts, or imply that a sample is a real response. The user can return later to choose the access policy and usage limits before live chat is enabled.
+Deliver a permanent, responsive Aster website on Manus-managed hosting. The page presents the upgraded AI chat product and its intended conversation experience, but live AI chat remains disabled until the owner chooses access and usage controls. The site must not call an LLM, collect prompts, or imply that a sample is a real response. The user can return later to choose an access policy and usage limits before live chat is enabled.
 
-Use a dependency-free static HTML/CSS/JavaScript site. Preview uses the configured port 3000; production serves the committed `public/` directory through the managed static build contract. The single route is `/`; no database, provider credential, or request-handling endpoint is included in this release.
+Use a dependency-free static HTML/CSS/JavaScript site. Production uses hybrid publication because this initialized project has server hosting enabled: the managed static build serves the committed `public/` directory, while a minimal Python standard-library container provides `/healthz` and serves files in Preview. Published routing sends health checks to the server and the visitor-facing site to the static output. No provider credential, database, chat API, or request handling endpoint is included in this release.
 
 ## Project structure
 
 - `public/index.html` — responsive one-page product and disabled chat experience.
 - `public/manus-routes.json` — declared page route for platform route discovery.
 - `public/aster-mark.svg` — original Aster mark and favicon.
+- `app_server.py` — static-file server with the unauthenticated health endpoint only.
+- `Dockerfile` — reproducible production container.
 - `app.config.ts` — platform project-logo metadata.
 - `README.md` — local preview and release notes.
-- `plan.md` — design and implementation decisions.
 
 ## Design direction
 
