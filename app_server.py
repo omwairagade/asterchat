@@ -5,6 +5,7 @@ from __future__ import annotations
 import hmac
 import json
 import os
+from contextlib import asynccontextmanager
 from datetime import date, datetime, time, timedelta, timezone
 from pathlib import Path
 from urllib.parse import urlsplit
@@ -31,12 +32,20 @@ PUBLIC_APP_ORIGINS = frozenset(
     }
 )
 
+@asynccontextmanager
+async def lifespan(_: FastAPI):
+    validate_runtime_environment()
+    await run_in_threadpool(db.verify_schema)
+    yield
+
+
 app = FastAPI(
     title="Aster",
     docs_url=None,
     redoc_url=None,
     openapi_url=None,
     telemetry={"auto_configure": False},
+    lifespan=lifespan,
 )
 
 
@@ -61,6 +70,21 @@ def cookie_options(secure: bool, path: str = "/") -> dict:
         "samesite": "none" if secure else "lax",
         "path": path,
     }
+
+
+def validate_runtime_environment() -> None:
+    required = {
+        "DATABASE_URL": os.environ.get("DATABASE_URL", ""),
+        "MANUS_PROJECT_ID": os.environ.get("MANUS_PROJECT_ID", ""),
+        "MANUS_JWT_SECRET": os.environ.get("MANUS_JWT_SECRET", ""),
+        "MANUS_OAUTH_PORTAL_URL": os.environ.get("MANUS_OAUTH_PORTAL_URL", ""),
+        "MANUS_OAUTH_API_URL": os.environ.get("MANUS_OAUTH_API_URL", ""),
+        "MANUS_API_URL": os.environ.get("MANUS_API_URL", ""),
+        "MANUS_API_KEY": os.environ.get("MANUS_API_KEY", ""),
+    }
+    missing = [name for name, value in required.items() if not value]
+    if missing:
+        raise RuntimeError("Missing required environment variables: " + ", ".join(missing))
 
 
 def require_browser_origin(request: Request) -> str:
@@ -121,11 +145,6 @@ def private_json(payload: dict, status_code: int = 200) -> JSONResponse:
         status_code=status_code,
         headers={"Cache-Control": "no-store", "X-Content-Type-Options": "nosniff"},
     )
-
-
-@app.on_event("startup")
-async def verify_database_at_startup() -> None:
-    await run_in_threadpool(db.verify_schema)
 
 
 @app.get("/api/healthz")

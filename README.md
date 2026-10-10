@@ -6,11 +6,18 @@ Each account can submit **100 user messages per UTC day**, shared across browser
 
 Aster streams replies from the Manus AI chat-completions service. Provider credentials stay server-side. AI requests use the project's service identity and consume the project's AI credits. Aster applies a 4,000-character per-message limit and a bounded recent conversation context.
 
+## Requirements
+
+- Python 3.12+
+- MySQL-compatible managed database with TLS enabled
+- A Manus OAuth configuration and an AI service access token or project API key
+
 ## Local development
 
-The platform supplies Manus OAuth, AI-service, and managed-database environment variables to the bound project environment. Do not copy those values into source files or `.env` files.
+Copy the environment template and fill in your project values:
 
 ```bash
+cp .env.example .env
 python3 -m venv .venv
 . .venv/bin/activate
 pip install -r requirements.txt
@@ -18,12 +25,37 @@ python scripts/migrate.py
 uvicorn app_server:app --host 0.0.0.0 --port 3000 --no-access-log
 ```
 
-Use the managed Cloud Preview or published URL for a real OAuth callback. A plain loopback URL is not automatically accepted by the Manus sign-in portal. OAuth callbacks are allowlisted in `PUBLIC_APP_ORIGINS` to the current published and managed Preview origins; add any custom domain there before using it. The migration creates only Aster account and daily-usage tables, plus migration history; development and production share the managed database.
+Use the managed Cloud Preview or published URL for a real OAuth callback. A plain loopback URL is not automatically accepted by the Manus sign-in portal. OAuth callbacks are allowlisted in `PUBLIC_APP_ORIGINS` to the current published and managed Preview origins; add any custom domain there before using it.
+
+## Git and deployment
+
+This repository is ready to be pushed to GitHub and imported into Vercel.
+
+GitHub:
+
+```bash
+git init
+git add .
+git commit -m "Initial Aster release"
+git branch -M main
+git remote add origin <your-github-url>
+git push -u origin main
+```
+
+Vercel:
+
+1. Import the repository in Vercel.
+2. Set the build command to `pip install -r requirements.txt` if needed or leave the default.
+3. Add the same environment variables from `.env.example` to Vercel project settings.
+4. Deploy.
+
+The included `vercel.json` routes requests to the FastAPI app in `api/index.py`, and the frontend remains served from the root `public/` assets.
 
 ## Application structure
 
 - `public/index.html` and `public/aster-chat.js` provide the landing page, Manus sign-in, quota display, and streaming chat UI.
 - `app_server.py` provides OAuth callback/session APIs, quota enforcement, health checks, and static files for development.
+- `api/index.py` exports the FastAPI app for Vercel deployment.
 - `aster/auth.py` validates the `webdev_app_session` HS256 project JWT and implements the OAuth state/identity flow.
 - `aster/db.py` stores opaque account keys and enforces per-day quotas using atomic MySQL updates.
 - `aster/llm.py` streams Manus AI responses and sanitizes rendered Markdown.

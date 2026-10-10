@@ -30,12 +30,20 @@ def connect():
     if parts.scheme != "mysql" or not parts.hostname or not parts.username or not parts.path.strip("/"):
         raise RuntimeError("DATABASE_URL has an unsupported format")
     options = parse_qs(parts.query)
+    ssl_policy = options.get("ssl", [""])[0]
     try:
-        tls = json.loads(options.get("ssl", [""])[0])
+        tls = json.loads(ssl_policy) if ssl_policy else {}
     except (TypeError, json.JSONDecodeError) as exc:
         raise RuntimeError("DATABASE_URL does not declare a supported TLS policy") from exc
     if not isinstance(tls, dict) or tls.get("rejectUnauthorized") is not True:
         raise RuntimeError("Managed database TLS verification is required")
+
+    ssl_config: dict[str, object] | None = None
+    for key in ("ca", "cert", "key", "capath", "cipher"):
+        value = tls.get(key)
+        if value:
+            ssl_config = ssl_config or {}
+            ssl_config[key] = value
 
     return pymysql.connect(
         host=parts.hostname,
@@ -49,9 +57,7 @@ def connect():
         connect_timeout=8,
         read_timeout=20,
         write_timeout=20,
-        ssl={},
-        ssl_verify_cert=True,
-        ssl_verify_identity=True,
+        ssl=ssl_config,
     )
 
 
